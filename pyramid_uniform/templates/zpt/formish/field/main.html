@@ -1,0 +1,7 @@
+<div id="${field.cssname}--field" class="ctrlHolder ${field.classes}">
+  <p tal:condition="field.error" class="errorField">${unicode(field.error)}</p>
+  <label tal:condition="field.widget.type != 'Hidden'"
+    for="${field.cssname}"><em tal:condition="field.required">*</em>${field.title}</label>
+  <div tal:replace="structure field.widget()"></div>
+  <p tal:condition="field.description and unicode(field.description) != u''" class="formHint">${unicode(field.description)}</p>
+</div>

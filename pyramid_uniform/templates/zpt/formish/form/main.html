@@ -1,0 +1,30 @@
+<form
+  id="${form.name}"
+  action="${form.action_url or ''}"
+  class="formish-form uniForm"
+  method="${form.method.lower()}"
+  enctype="multipart/form-data"
+  accept-charset="utf-8">
+  <div tal:condition="form.include_charset">
+    <input type="hidden" name="_charset_" />
+  </div>
+  <div tal:condition="python: hasattr(form, 'controller') and hasattr(form.controller, 'csrf_token')">
+    <input type="hidden" name="__csrf_token__" tal:attributes="value form.controller.csrf_token" />
+  </div>
+  <div tal:condition="form.name">
+    <input type="hidden" name="__formish_form__" value="${form.name}" />
+  </div>
+  <fieldset class="inlineLabels col first">
+  <p tal:condition="form.alert" class="error">${unicode(form.alert)}</p>
+  <span tal:replace="structure form.fields()"/>
+  <div class="buttonHolder">
+    <tal:block repeat="action form._actions">
+      <button type="submit"
+             id="${'-'.join(filter(None, [form.name, 'action', action.name]))}"
+             name="${action.name or ''}"
+             value="${action.value or ''}"
+             tal:content="action.value or 'Submit'"></button>
+    </tal:block>
+  </div>
+  </fieldset>
+</form>
